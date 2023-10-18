@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      function calculator(string) {
+        inputNumbs = string.replace(/\s/g, "");
+        let signs = {
+          "+": (a, b) => a + b,
+          "-": (a, b) => a - b,
+          "*": (a, b) => a * b,
+          "/": (a, b) => Math.trunc(a / b),
+        };
+        counts = Object.keys(signs);
+        let result;
+        romanNumbersArray1 = [
+          "",
+          "I",
+          "II",
+          "III",
+          "IV",
+          "V",
+          "VI",
+          "VII",
+          "VIII",
+          "IX",
+          "X",
+        ];
+        romanNumbersArray2 = [
+          "",
+          "X",
+          "XX",
+          "XXX",
+          "XL",
+          "L",
+          "LX",
+          "LXX",
+          "LXXX",
+          "XC",
+          "",
+        ];
+        romanNumbersArray3 = [
+          "",
+          "C",
+          "CC",
+          "CCC",
+          "CD",
+          "D",
+          "DC",
+          "DCC",
+          "DCCC",
+          "CM",
+          "",
+        ];
+
+        function convectorForRomanNumbs(RomanNumb) {
+          i = 0;
+          inputRoman = "";
+          if (RomanNumb.length === 3) {
+            inputRoman = romanNumbersArray3[RomanNumb[0]];
+            i++;
+          }
+          if (RomanNumb.length >= 2) {
+            inputRoman += romanNumbersArray2[RomanNumb[i]];
+            i++;
+          }
+          if (RomanNumb.length >= 1) {
+            inputRoman += romanNumbersArray1[RomanNumb[i]];
+          }
+          return inputRoman;
+        }
+
+        for (let inpCount of counts) {
+          console.log(inpCount);
+          let inputNumbsArray = inputNumbs.split(inpCount);
+          if (inputNumbsArray.length == 2) {
+            let a = inputNumbsArray[0];
+            let b = inputNumbsArray[1];
+            if (
+              !isNaN(a) &&
+              !isNaN(b) &&
+              Number(a) >= 1 &&
+              Number(b) >= 1 &&
+              Number(a) <= 10 &&
+              Number(b) <= 10
+            ) {
+              result = signs[inpCount](Number(a), Number(b));
+            } else {
+              c = romanNumbersArray1.indexOf(a);
+              d = romanNumbersArray1.indexOf(b);
+              if (c >= 0 && d >= 0) {
+                result = signs[inpCount](Number(c), Number(d));
+                if (result <= 0) {
+                  return "";
+                } else {
+                  return convectorForRomanNumbs("" + result);
+                }
+              } 
+              // Если оставить этот else, код ломается.
+              //else {
+              //   throw new Error("Ошибочка");
+            }
+          }
+        }
+        return String(result);
+      }
+      console.log(calculator("++1"));
+    </script>
+  </body>
+</html>
